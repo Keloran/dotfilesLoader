@@ -1,45 +1,45 @@
 package console
 
 import (
-  "fmt"
+	"fmt"
 )
 
 func Blue(text string) string {
-  return console(text, 34)
+	return console(text, 34)
 }
 
 func Green(text string) string {
-  return console(text, 32)
+	return console(text, 32)
 }
 
 func Red(text string) string {
-  return console(text, 31)
+	return console(text, 31)
 }
 
 func Black(text string) string {
-  return console(text, 30)
+	return console(text, 30)
 }
 
 func Yellow(text string) string {
-  return console(text, 33)
+	return console(text, 33)
 }
 
 func Magenta(text string) string {
-  return console(text, 35)
+	return console(text, 35)
 }
 
 func Cyan(text string) string {
-  return console(text, 36)
+	return console(text, 36)
 }
 
 func White(text string) string {
-  return console(text, 37)
+	return console(text, 37)
 }
 
 func console(text string, color int) string {
-  return fmt.Sprintf("\u001b[%dm%s%s", color, text, reset())
+	return fmt.Sprintf("\u001b[%dm%s%s", color, text, reset())
 }
 
 func reset() string {
-  return fmt.Sprintf("\u001b[0m")
+	return fmt.Sprintf("\u001b[0m")
 }
