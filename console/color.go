@@ -41,5 +41,5 @@ func console(text string, color int) string {
 }
 
 func reset() string {
-	return fmt.Sprintf("\u001b[0m")
+	return fmt.Sprint("\u001b[0m")
 }
