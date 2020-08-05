@@ -48,11 +48,11 @@ jobs:
           asset_content_type: application/zip
       - name: Upload macOS Intel
         uses: actions/upload-release-asset@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./dotfiles-macos-intel.zip
-            asset_name: dotfiles-macos-intel.zip
-            asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dotfiles-macos-intel.zip
+          asset_name: dotfiles-macos-intel.zip
+          asset_content_type: application/zip
 
