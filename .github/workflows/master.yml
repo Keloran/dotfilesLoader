@@ -32,8 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: linux-${{ github.ref }}
+          release_name: Release Linux ${{ github.ref }}
       - name: Upload
         uses: actions/upload-release-asset@v1
         env:
@@ -62,8 +62,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: macos-intel-${{ github.ref }}
+          release_name: Release macOS Intel ${{ github.ref }}
       - name: Upload
         uses: actions/upload-release-asset@v1
         env:
