@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/keloran/dotfilesLoader/console"
-	"github.com/keloran/dotfilesLoader/dots"
-	"github.com/keloran/dotfilesLoader/files"
+	"github.com/Keloran/dotfilesLoader/console"
+	"github.com/Keloran/dotfilesLoader/dots"
+	"github.com/Keloran/dotfilesLoader/files"
 )
 
 func main() {

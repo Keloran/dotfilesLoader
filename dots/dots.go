@@ -3,7 +3,7 @@ package dots
 import (
 	"fmt"
 
-	"github.com/keloran/dotfilesLoader/files"
+	"github.com/Keloran/dotfilesLoader/files"
 )
 
 type Dots struct {
