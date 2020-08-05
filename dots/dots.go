@@ -28,12 +28,12 @@ func (d Dots) Install() error {
 		}
 
 		if d.Skip == false {
-      zipedFiles, err := files.Extract(filesLocation, "github")
-      if err != nil {
-        return fmt.Errorf("dotfiles extract: %w", err)
-      }
-      fmt.Printf("Files: %+v", zipedFiles)
-    }
+			zipedFiles, err := files.Extract(filesLocation, "github")
+			if err != nil {
+				return fmt.Errorf("dotfiles extract: %w", err)
+			}
+			fmt.Printf("Files: %+v", zipedFiles)
+		}
 
 		err = files.Cleanup("github")
 	}
