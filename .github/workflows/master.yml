@@ -38,8 +38,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: release-${{ steps.date.outputs.date }}
-          release_name: Release Linux ${{ steps.date.outputs.date }}
+          tag_name: ${{ steps.date.outputs.date }}
+          release_name: ${{ steps.date.outputs.date }} Build
       - name: Upload Linux
         uses: actions/upload-release-asset@v1
         env:
