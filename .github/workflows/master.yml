@@ -43,34 +43,34 @@ jobs:
           asset_path: ./dotfiles-linux.zip
           asset_name: dotfiles-linux.zip
           asset_content_type: application/zip
-    release-mac-intel:
-      needs: lint
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-go@v2
-          with:
-            - go-version: 1.14.x
-        - name: build
-          run: |
-            go get ./...
-            GOARCH=amd64 GOOS=darwin go build -o dotfiles
-            zip --junk-paths dotfiles-macos-intel dotfiles
-        - name: Create Release
-          id: create_release
-          uses: actions/create-release@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            tag_name: ${{ github.ref }}
-            release_name: Release ${{ github.ref }}
-        - name: Upload
-          uses: actions/upload-release-asset@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./dotfiles-macos-intel.zip
-            asset_name: dotfiles-macos-intel.zip
-            asset_content_type: application/zip
+  release-mac-intel:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          - go-version: 1.14.x
+      - name: build
+        run: |
+          go get ./...
+          GOARCH=amd64 GOOS=darwin go build -o dotfiles
+          zip --junk-paths dotfiles-macos-intel dotfiles
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+      - name: Upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dotfiles-macos-intel.zip
+          asset_name: dotfiles-macos-intel.zip
+          asset_content_type: application/zip
 
