@@ -28,7 +28,7 @@ func (d Downloader) Github() (string, error) {
 		return "", fmt.Errorf("Downloader Github Repository blank")
 	}
 
-	if d.Skip == false {
+	if !d.Skip {
 		d, err := d.getFiles(fmt.Sprintf("https://github.com/%s/%s/archive/master.zip", d.GithubDetails.Username, d.GithubDetails.Repository), "github.zip")
 		return d.StoredLocation, err
 	}

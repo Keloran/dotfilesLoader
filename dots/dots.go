@@ -27,7 +27,7 @@ func (d Dots) Install() error {
 			return fmt.Errorf("dotfiles install, file location blank")
 		}
 
-		if d.Skip == false {
+		if !d.Skip {
 			zipedFiles, err := files.Extract(filesLocation, "github")
 			if err != nil {
 				return fmt.Errorf("dotfiles extract: %w", err)
@@ -36,10 +36,11 @@ func (d Dots) Install() error {
 		}
 
 		err = files.Cleanup("github")
+		return fmt.Errorf("dotfiles installed cleanup: %w", err)
 	}
 
 	fmt.Printf("Dots %+v\n", d)
 	return fmt.Errorf("tester")
 
-	return nil
+	// return nil
 }

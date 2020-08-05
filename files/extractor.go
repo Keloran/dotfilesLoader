@@ -58,7 +58,7 @@ func Extract(input, output string) ([]string, error) {
 
 		rc, err := f.Open()
 		if err != nil {
-			return files, fmt.Errorf("Extractor extract open file %+v, err", f, err)
+			return files, fmt.Errorf("Extractor extract open file %+v, err: %w", f, err)
 		}
 
 		_, err = io.Copy(out, rc)
