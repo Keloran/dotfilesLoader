@@ -21,8 +21,10 @@ jobs:
         goos: [linux, darwin]
     steps:
       - uses: actions/checkout@v2
-      - uses: wangyoucao577/go-release-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: amd64
+      - uses: ngs/go-release.action@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BINARY_NAME: dotfiles
+          GOOS: ${{ matrix.goos }}
+          GOARCH: amd64
+
