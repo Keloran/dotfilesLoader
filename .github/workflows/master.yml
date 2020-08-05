@@ -12,27 +12,18 @@ jobs:
       - uses: golangci/golangci-lint-action@v1.2.1
         with:
           version: v1.29
-  release-linux:
+
+  releases-matrix:
     needs: lint
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, darwin]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - uses: wangyoucao577/go-release-action@master
         with:
-          fetch-depth: 1
-      - uses: ngs/go-release.action@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GOARCH: amd64
-          GOOS: linux
-  release-mac-intel:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-      - uses: ngs/go-release.action@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GOARCH: amd64
-          GOOS: darwin
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: amd64
+          binary_name: dotfiles
