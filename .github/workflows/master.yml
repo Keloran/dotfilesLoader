@@ -21,9 +21,9 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: 1.14.x
-      - name: Get Date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Get Date and Time
+        id: datetime
+        run: echo "::set-output name=datetime::$(date +'%Y-%m-%d::%T')"
       - name: Build
         run: |
           go get ./...
@@ -38,8 +38,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.date.outputs.date }}
-          release_name: ${{ steps.date.outputs.date }} Build
+          tag_name: ${{ steps.datetime.outputs.datetime }}
+          release_name: ${{ steps.datetime.outputs.datetime }} Build
       - name: Upload Linux
         uses: actions/upload-release-asset@v1
         env:
