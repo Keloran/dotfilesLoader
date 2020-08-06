@@ -23,7 +23,7 @@ jobs:
           go-version: 1.14.x
       - name: Get Date and Time
         id: datetime
-        run: echo "::set-output name=datetime::$(date +'%Y-%m-%d::%T')"
+        run: echo "::set-output name=datetime::$(date +'%Y-%m-%d_%H.%M')"
       - name: Build
         run: |
           go get ./...
