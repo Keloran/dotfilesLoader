@@ -12,7 +12,7 @@ on:
       - unlocked
   check_suite:
     types:
-      - completed'
+      - completed
 
 jobs:
   lint:
