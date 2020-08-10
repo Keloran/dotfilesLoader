@@ -1,17 +1,23 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"os"
-	"strings"
+  "flag"
+  "fmt"
+  "os"
+  "strings"
 
-	"github.com/Keloran/dotfilesLoader/console"
-	"github.com/Keloran/dotfilesLoader/dots"
-	"github.com/Keloran/dotfilesLoader/files"
+  "github.com/Keloran/dotfilesLoader/console"
+  "github.com/Keloran/dotfilesLoader/dots"
+  "github.com/Keloran/dotfilesLoader/files"
 )
 
 func main() {
+	currentLocation, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("couldn't get current directory: %+v", err)
+		return
+	}
+
 	command := ""
 	if len(os.Args) >= 2 {
 		for _, arg := range os.Args {
@@ -65,10 +71,11 @@ func main() {
 
 	// dots
 	dot := dots.Dots{
-		Username: USERNAME,
-		Force:    *force,
-		Skip:     *skip,
-		Github:   Github,
+		Username:   USERNAME,
+		Force:      *force,
+		Skip:       *skip,
+		Github:     Github,
+		CurrentDir: currentLocation,
 	}
 	if dotfiles {
 		err := dot.Install()
@@ -81,47 +88,30 @@ func main() {
 
 	// GUI
 	if appsGUI {
+	  fmt.Print("Apps GUI\n")
 		return
 	}
 
 	// CLI
 	if appsCLI {
+    fmt.Print("Apps CLI\n")
 		return
 	}
 
 	// OS
 	if OS {
+    fmt.Print("OS\n")
 		return
 	}
 
 	// All
 	if all {
+	  fmt.Print("All\n")
 		return
 	}
 
 	// Help
 	if help {
-		hFormat := "    %s        %s"
-		fFormat := "    -%s        %s"
-
-		c := console.NewConsole(true)
-		c.Start("Help").
-			Info("Usage dotfiles <command> <flags>").
-			BlankLine().
-			Info("Commands:").
-			FormattedText(fmt.Sprintf(hFormat, console.Cyan("help"), console.Blue("  This message"))).
-			FormattedText(fmt.Sprintf(hFormat, console.Cyan("cli"), console.Blue("   Install CLI Apps"))).
-			FormattedText(fmt.Sprintf(hFormat, console.Cyan("gui"), console.Blue("   Install GUI Apps"))).
-			FormattedText(fmt.Sprintf(hFormat, console.Cyan("os"), console.Blue("    Install OS Settings"))).
-			FormattedText(fmt.Sprintf(hFormat, console.Cyan("dots"), console.Blue("  Install the dotfiles"))).
-			FormattedText(fmt.Sprintf(hFormat, console.Cyan("update"), console.Blue("Run updaters"))).
-			BlankLine().
-			Info("Flags:").
-			FormattedText(fmt.Sprintf(fFormat, console.Green("github-user | github-username <keloran>"), console.Blue("   Github username"))).
-			FormattedText(fmt.Sprintf(fFormat, console.Green("github-repository | github-repo <dotfiles>"), console.Blue("Github repository"))).
-			FormattedText(fmt.Sprintf(fFormat, console.Green("force"), console.Blue("                                     Force installs"))).
-			FormattedText(fmt.Sprintf(fFormat, console.Green("skip-download"), console.Blue("                             Skip Download"))).
-			FormattedText(fmt.Sprintf(fFormat, console.Green("user <keloran>"), console.Blue("                            The username if needs sudo"))).
-			End("")
-	}
+	  Help()
+  }
 }
