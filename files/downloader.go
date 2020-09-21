@@ -8,8 +8,9 @@ import (
 )
 
 type Github struct {
-	Username   string
-	Repository string
+	Username      string
+	Repository    string
+	GivenLocation string
 }
 
 type Downloader struct {
@@ -31,6 +32,10 @@ func (d Downloader) Github() (string, error) {
 	if !d.Skip {
 		d, err := d.getFiles(fmt.Sprintf("https://github.com/%s/%s/archive/master.zip", d.GithubDetails.Username, d.GithubDetails.Repository), "github.zip")
 		return d.StoredLocation, err
+	}
+
+	if d.GithubDetails.GivenLocation != "" {
+		return d.GithubDetails.GivenLocation, nil
 	}
 
 	return "/tmp/github", nil

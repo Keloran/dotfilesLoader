@@ -1,14 +1,15 @@
 package main
 
 import (
-  "flag"
-  "fmt"
-  "os"
-  "strings"
+	"flag"
+	"fmt"
+	"os"
+	"strings"
 
-  "github.com/Keloran/dotfilesLoader/console"
-  "github.com/Keloran/dotfilesLoader/dots"
-  "github.com/Keloran/dotfilesLoader/files"
+	"github.com/Keloran/dotfilesLoader/apps"
+	"github.com/Keloran/dotfilesLoader/console"
+	"github.com/Keloran/dotfilesLoader/dots"
+	"github.com/Keloran/dotfilesLoader/files"
 )
 
 func main() {
@@ -66,6 +67,7 @@ func main() {
 
 	flag.StringVar(&Github.Repository, "github-repository", "dotfiles", "github repository")
 	flag.StringVar(&Github.Repository, "github-repo", "dotfiles", "github repository")
+	flag.StringVar(&Github.GivenLocation, "github-files", "testbed", "force location of the files")
 
 	flag.Parse()
 
@@ -78,40 +80,65 @@ func main() {
 		CurrentDir: currentLocation,
 	}
 	if dotfiles {
-		err := dot.Install()
-		if err != nil {
-			c := console.NewConsole(false)
-			c.Error(fmt.Sprintf("dotfiles err: %+v", err))
+		if err := dot.Install(); err != nil {
+			console.NewConsole(false).Error(fmt.Sprintf("dotfiles err: %+v", err))
 		}
 		return
 	}
 
+	// apps
+	app := apps.Apps{
+		Username: USERNAME,
+		Force:    *force,
+		Skip:     *skip,
+		Github:   Github,
+	}
 	// GUI
 	if appsGUI {
-	  fmt.Print("Apps GUI\n")
+		// need sudo password
+		if err := app.SetSudo(); err != nil {
+			console.NewConsole(false).Error(fmt.Sprintf("Sudo err: %+v", err))
+		}
+
+		// GUI install
+		fmt.Print("Apps GUI\n")
+		if err = app.InstallGUI(); err != nil {
+			console.NewConsole(false).Error(fmt.Sprintf("GUI err: %+v", err))
+		}
+
+		fmt.Print("Apps GUI\n")
 		return
 	}
 
 	// CLI
 	if appsCLI {
-    fmt.Print("Apps CLI\n")
+		// need sudo password
+		if err := app.SetSudo(); err != nil {
+			console.NewConsole(false).Error(fmt.Sprintf("Sudo err: %+v", err))
+		}
+
+		// CLI install
+		fmt.Print("Apps CLI\n")
+		if err = app.InstallCLI(); err != nil {
+			console.NewConsole(false).Error(fmt.Sprintf("CLI err: %v", err))
+		}
 		return
 	}
 
 	// OS
 	if OS {
-    fmt.Print("OS\n")
+		fmt.Print("OS\n")
 		return
 	}
 
 	// All
 	if all {
-	  fmt.Print("All\n")
+		fmt.Print("All\n")
 		return
 	}
 
 	// Help
 	if help {
-	  Help()
-  }
+		Help()
+	}
 }

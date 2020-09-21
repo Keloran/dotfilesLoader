@@ -17,15 +17,13 @@ func Extract(input, output string) ([]string, error) {
 		return files, fmt.Errorf("Extractor extract openReader: %w", err)
 	}
 	defer func() {
-		err := r.Close()
-		if err != nil {
+		if err := r.Close(); err != nil {
 			fmt.Printf("Extractor extract close zip: %v", err)
 		}
 	}()
 
 	folderName := fmt.Sprintf("/tmp/%s", output)
-	err = os.Mkdir(folderName, os.ModePerm)
-	if err != nil {
+	if err = os.Mkdir(folderName, os.ModePerm); err != nil {
 		return files, fmt.Errorf("Extractor extract create folder: %w", err)
 	}
 
@@ -40,8 +38,7 @@ func Extract(input, output string) ([]string, error) {
 		files = append(files, fpath)
 
 		if f.FileInfo().IsDir() {
-			err = os.MkdirAll(fpath, os.ModePerm)
-			if err != nil {
+			if err = os.MkdirAll(fpath, os.ModePerm); err != nil {
 				return files, fmt.Errorf("Extractor extract folder create: %w", err)
 			}
 			continue
@@ -77,8 +74,7 @@ func Extract(input, output string) ([]string, error) {
 		}
 	}
 
-	err = Cleanup(input)
-	if err != nil {
+	if err = Cleanup(input); err != nil {
 		return files, fmt.Errorf("Extractor extract cleanup: %w", err)
 	}
 

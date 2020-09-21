@@ -7,18 +7,18 @@ import (
 )
 
 type Dots struct {
-	Username   string
-	Github     files.Github
+	Username string
+	files.Github
 	Force      bool
 	Skip       bool
 	CurrentDir string
 }
 
 func (d Dots) Install() error {
-  type dots struct {
-    Location string
-    Name string
-  }
+	type dots struct {
+		Location string
+		Name     string
+	}
 
 	if d.Github.Repository != "" {
 		filesLocation, err := files.Downloader{
@@ -42,28 +42,26 @@ func (d Dots) Install() error {
 			dd := []dots{}
 			prefixLen := len(zipedFiles[0])
 			for _, file := range zipedFiles[1:] {
-			  if file[(prefixLen + 1):(prefixLen + 2)] == "." {
-			    ddd := dots{
-			      Location: file,
-			      Name: file[(prefixLen + 1):],
-          }
+				if file[(prefixLen+1):(prefixLen+2)] == "." {
+					ddd := dots{
+						Location: file,
+						Name:     file[(prefixLen + 1):],
+					}
 
-			    dd = append(dd, ddd)
-        }
-      }
+					dd = append(dd, ddd)
+				}
+			}
 
-      for _, dot := range dd {
-        err = files.Copy(dot.Location, fmt.Sprintf("%s/%s", d.CurrentDir, dot.Name))
-        if err != nil {
-          return fmt.Errorf("Dotfiles copy: %w", err)
-        }
-      }
+			for _, dot := range dd {
+				if err = files.Copy(dot.Location, fmt.Sprintf("%s/%s", d.CurrentDir, dot.Name)); err != nil {
+					return fmt.Errorf("Dotfiles copy: %w", err)
+				}
+			}
 		}
 
-		err = files.Cleanup("/tmp/github")
-		if err != nil {
-      return fmt.Errorf("dotfiles installed cleanup: %w", err)
-    }
+		if err = files.Cleanup("/tmp/github"); err != nil {
+			return fmt.Errorf("dotfiles installed cleanup: %w", err)
+		}
 	}
 
 	fmt.Print("dotfiles installed\n")

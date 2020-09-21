@@ -2,8 +2,8 @@ package files
 
 import (
 	"fmt"
-  "io"
-  "os"
+	"io"
+	"os"
 )
 
 func Cleanup(input string) error {
@@ -12,8 +12,7 @@ func Cleanup(input string) error {
 		return fmt.Errorf("Files cleanup open: %w", err)
 	}
 	defer func() {
-		err := f.Close()
-		if err != nil {
+		if err := f.Close(); err != nil {
 			fmt.Printf("Files cleanup close: %v", err)
 		}
 	}()
@@ -23,8 +22,7 @@ func Cleanup(input string) error {
 		return fmt.Errorf("Files cleanup stat: %w", err)
 	}
 	if info.IsDir() {
-		err = os.RemoveAll(input)
-		if err != nil {
+		if err = os.RemoveAll(input); err != nil {
 			return fmt.Errorf("Files cleanup removeAll: %w", err)
 		}
 		return nil
@@ -38,39 +36,37 @@ func Cleanup(input string) error {
 }
 
 func Copy(input, location string) error {
-  stat, err := os.Stat(input)
-  if err != nil {
-    return fmt.Errorf("Files copy stat: %w", err)
-  }
-  if !stat.Mode().IsRegular() {
-    return fmt.Errorf("Files copy not a file: %s", input)
-  }
+	stat, err := os.Stat(input)
+	if err != nil {
+		return fmt.Errorf("Files copy stat: %w", err)
+	}
+	if !stat.Mode().IsRegular() {
+		return fmt.Errorf("Files copy not a file: %s", input)
+	}
 
-  src, err := os.Open(input)
-  if err != nil {
-    return fmt.Errorf("Files copy open: %w", err)
-  }
-  defer func() {
-    err := src.Close()
-    if err != nil {
-      fmt.Printf("Files copy close input: %v", err)
-    }
-  }()
+	src, err := os.Open(input)
+	if err != nil {
+		return fmt.Errorf("Files copy open: %w", err)
+	}
+	defer func() {
+		if err := src.Close(); err != nil {
+			fmt.Printf("Files copy close input: %v", err)
+		}
+	}()
 
-  dest, err := os.Create(location)
-  if err != nil {
-    return fmt.Errorf("Files copy create: %w", err)
-  }
-  defer func() {
-    err := dest.Close()
-    if err != nil {
-      fmt.Printf("Files copy close dest: %v", err)
-    }
-  }()
-  _, err = io.Copy(dest, src)
-  if err != nil {
-    return fmt.Errorf("Files copy copy: %w", err)
-  }
+	dest, err := os.Create(location)
+	if err != nil {
+		return fmt.Errorf("Files copy create: %w", err)
+	}
+	defer func() {
+		if err := dest.Close(); err != nil {
+			fmt.Printf("Files copy close dest: %v", err)
+		}
+	}()
+	_, err = io.Copy(dest, src)
+	if err != nil {
+		return fmt.Errorf("Files copy copy: %w", err)
+	}
 
-  return nil
+	return nil
 }
