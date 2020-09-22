@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-  "log"
-  "os"
+	"log"
+	"os"
 	"os/exec"
 	"strings"
 
@@ -91,8 +91,8 @@ func (a Apps) brewInstall() error {
 			defer stdin.Close()
 			_, err := io.WriteString(stdin, a.SudoPassword)
 			if err != nil {
-			  log.Fatalf("brew install write sudo: %+v", err)
-      }
+				log.Fatalf("brew install write sudo: %+v", err)
+			}
 		}()
 
 		_, err = c.CombinedOutput()
@@ -139,6 +139,7 @@ func (a Apps) InstallCLI() error {
 		for _, installer := range apps {
 			switch installer.Installer {
 			case "brew":
+				c := console.NewConsole(false).Start("Brew Installs")
 				for _, app := range installer.ToInstall {
 					if installer.Extra == "tap" {
 						if err := tap(app); err != nil {
@@ -148,39 +149,50 @@ func (a Apps) InstallCLI() error {
 					}
 
 					i := Brew{
-						App: app,
+						App:     app,
+						Console: c,
 					}
 					if err := Install(i); err != nil {
 						return fmt.Errorf("brew install: %w", err)
 					}
 				}
+				c.End("Brew Installs")
 			case "cask":
+				c := console.NewConsole(false).Start("Cask Installs")
 				for _, app := range installer.ToInstall {
 					i := Cask{
-						App: app,
+						App:     app,
+						Console: c,
 					}
 					if err := Install(i); err != nil {
 						return fmt.Errorf("cask install: %w", err)
 					}
 				}
+				c.End("Cask Installs")
 			case "apm":
+				c := console.NewConsole(false).Start("APM Installs")
 				for _, app := range installer.ToInstall {
 					i := APM{
 						Package: app,
+						Console: c,
 					}
 					if err := Install(i); err != nil {
 						return fmt.Errorf("APM install: %w", err)
 					}
 				}
+				c.End("APN Installs")
 			case "mas":
+				c := console.NewConsole(false).Start("MAS Installs")
 				for _, app := range installer.ToInstall {
 					i := MAS{
-						App: app,
+						App:     app,
+						Console: c,
 					}
 					if err := Install(i); err != nil {
 						return fmt.Errorf("MAS install: %w", err)
 					}
 				}
+				c.End("MAS Installs")
 			}
 		}
 	}
