@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"os"
+  "log"
+  "os"
 	"os/exec"
 	"strings"
 
@@ -88,7 +89,10 @@ func (a Apps) brewInstall() error {
 
 		go func() {
 			defer stdin.Close()
-			io.WriteString(stdin, a.SudoPassword)
+			_, err := io.WriteString(stdin, a.SudoPassword)
+			if err != nil {
+			  log.Fatalf("brew install write sudo: %+v", err)
+      }
 		}()
 
 		_, err = c.CombinedOutput()
