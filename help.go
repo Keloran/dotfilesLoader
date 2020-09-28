@@ -16,8 +16,7 @@ func Help() {
 		BlankLine().
 		Info("Commands:").
 		FormattedText(fmt.Sprintf(hFormat, console.Cyan("help"), console.Blue("  This message"))).
-		FormattedText(fmt.Sprintf(hFormat, console.Cyan("cli"), console.Blue("   Install CLI Apps"))).
-		FormattedText(fmt.Sprintf(hFormat, console.Cyan("gui"), console.Blue("   Install GUI Apps"))).
+		FormattedText(fmt.Sprintf(hFormat, console.Cyan("apps"), console.Blue("   Install Apps"))).
 		FormattedText(fmt.Sprintf(hFormat, console.Cyan("os"), console.Blue("    Install OS Settings"))).
 		FormattedText(fmt.Sprintf(hFormat, console.Cyan("dots"), console.Blue("  Install the dotfiles"))).
 		FormattedText(fmt.Sprintf(hFormat, console.Cyan("update"), console.Blue("Run updaters"))).

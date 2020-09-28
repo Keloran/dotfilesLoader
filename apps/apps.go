@@ -104,7 +104,7 @@ func (a Apps) brewInstall() error {
 	return nil
 }
 
-func (a Apps) InstallCLI() error {
+func (a Apps) Install() error {
 	if err := xcode(); err != nil {
 		return fmt.Errorf("cli xcode install: %w", err)
 	}

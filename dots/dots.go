@@ -3,7 +3,8 @@ package dots
 import (
 	"fmt"
 
-	"github.com/Keloran/dotfilesLoader/files"
+  "github.com/Keloran/dotfilesLoader/console"
+  "github.com/Keloran/dotfilesLoader/files"
 )
 
 type Dots struct {
@@ -19,6 +20,9 @@ func (d Dots) Install() error {
 		Location string
 		Name     string
 	}
+
+  c := console.NewConsole(false)
+  c.Start("DotFiles")
 
 	if d.Github.Repository != "" {
 		filesLocation, err := files.Downloader{
@@ -56,6 +60,7 @@ func (d Dots) Install() error {
 				if err = files.Copy(dot.Location, fmt.Sprintf("%s/%s", d.CurrentDir, dot.Name)); err != nil {
 					return fmt.Errorf("Dotfiles copy: %w", err)
 				}
+				c.Info(fmt.Sprintf("%s Copied", dot.Name))
 			}
 		}
 
@@ -64,6 +69,6 @@ func (d Dots) Install() error {
 		}
 	}
 
-	fmt.Print("dotfiles installed\n")
+  c.End("DotFiles")
 	return nil
 }

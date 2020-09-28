@@ -29,7 +29,7 @@ func main() {
 		}
 	}
 
-	var dotfiles, appsGUI, appsCLI, OS, all bool
+	var dotfiles, appsInstall, OS, all bool
 	help := true
 	all = true
 
@@ -40,12 +40,8 @@ func main() {
 		dotfiles = true
 		all = false
 		help = false
-	case "gui":
-		appsGUI = true
-		all = false
-		help = false
-	case "cli":
-		appsCLI = true
+	case "apps":
+		appsInstall = true
 		help = false
 		all = false
 	case "help":
@@ -93,33 +89,17 @@ func main() {
 		Skip:     *skip,
 		Github:   Github,
 	}
-	// GUI
-	if appsGUI {
-		// need sudo password
-		if err := app.SetSudo(); err != nil {
-			console.NewConsole(false).Error(fmt.Sprintf("Sudo err: %+v", err))
-		}
-
-		// GUI install
-		fmt.Print("Apps GUI\n")
-		if err = app.InstallGUI(); err != nil {
-			console.NewConsole(false).Error(fmt.Sprintf("GUI err: %+v", err))
-		}
-
-		fmt.Print("Apps GUI\n")
-		return
-	}
 
 	// CLI
-	if appsCLI {
+	if appsInstall {
 		// need sudo password
 		if err := app.SetSudo(); err != nil {
 			console.NewConsole(false).Error(fmt.Sprintf("Sudo err: %+v", err))
 		}
 
 		// CLI install
-		fmt.Print("Apps CLI\n")
-		if err = app.InstallCLI(); err != nil {
+		fmt.Print("Apps\n")
+		if err = app.Install(); err != nil {
 			console.NewConsole(false).Error(fmt.Sprintf("CLI err: %v", err))
 		}
 		return
