@@ -19,12 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: golangci/golangci-lint-action@v1.2.1
+      - uses: golangci/golangci-lint-action@v2
         with:
           version: v1.29
   auto-merge:
     needs: lint
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
     steps:
-      - uses: ahmadnassri/action-dependabot-auto-merge@v1
+      - uses: ridedott/merge-me-action@v2
+        with:
+          GITHUB_LOGIN: dependabot
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
